@@ -25,11 +25,7 @@ module Coco
       @result = raw_results
       exclude_external_sources
       exclude_files_user_dont_want
-      if config[:exclude_above_threshold]
-        @covered_from_domain = exclude_sources_above_threshold
-      else
-        @covered_from_domain = @all_from_domain
-      end
+      @covered_from_domain = @all_from_domain
     end
 
     private

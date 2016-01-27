@@ -4,7 +4,6 @@ require 'coco/writer'
 require 'coco/helpers'
 require 'coco/configuration'
 require 'coco/lister'
-
 require 'coverage'
 
 # Public: Main namespace of Coco, a code coverage utilily for
@@ -20,14 +19,16 @@ at_exit do
   if config.user_wants_to_run?
     result = Coco::CoverageResult.new(config, Coverage.result)
     covered = result.covered_from_domain
-
     sources = Coco::SourceLister.new(config).list
     uncovered = Coco::UncoveredLister.new(sources, result.all_from_domain).list
 
     console_formatter = Coco::ConsoleFormatter.new(covered, uncovered,
-                                                   config[:threshold])
-    puts console_formatter.format(config[:single_line_report])
-    puts console_formatter.link if config[:show_link_in_terminal]
+                                                   config[:threshold],
+																									 config[:exclude_above_threshold],
+																									 config[:show_total_coverage]
+																									)
+    print console_formatter.format(config[:single_line_report])
+    print console_formatter.link if config[:show_link_in_terminal]
 
     html_files = Coco::HtmlFormatter.new(covered).format
     Coco::HtmlFilesWriter.new(html_files).write

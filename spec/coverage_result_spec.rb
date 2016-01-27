@@ -40,13 +40,6 @@ describe CoverageResult do
     good_hash.should == {"#{File.join(Dir.pwd, 'internal/one')}" => [0, 1]}
   end
 
-  it 'can exclude sources above threshold' do
-    result = CoverageResult.new({:threshold => 90, :exclude_above_threshold => true}, RAW_RESULT_2)
-    good_hash = result.covered_from_domain
-    good_hash.size.should == 1
-    good_hash[File.join(Dir.pwd, 'internal/one')].should == [0, 1]
-  end
-
   it 'can include sources above threshold' do
     result = CoverageResult.new({:threshold => 90, :exclude_above_threshold => false}, RAW_RESULT_2)
     good_hash = result.covered_from_domain
